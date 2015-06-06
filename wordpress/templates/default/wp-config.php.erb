@@ -60,6 +60,11 @@ define('FORCE_SSL_LOGIN', true);
 define('FORCE_SSL_ADMIN', true);
 <% end -%>
 
+<% if node['wordpress']['wp_config']['have_aws_keys'] == true -%>
+define('AWS_ACCESS_KEY_ID', '<%= node['wordpress']['wp_config']['aws_access_key'] %>');
+define('AWS_SECRET_ACCESS_KEY', '<%= node['wordpress']['wp_config']['aws_secret_access_key'] %>');
+<% end -%>
+
 /**
  * Use external cron
  */
