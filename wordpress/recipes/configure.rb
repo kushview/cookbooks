@@ -15,28 +15,31 @@ request = Net::HTTP::Get.new(uri.request_uri)
 response = http.request(request)
 keys = response.body
 
-
 # Create the Wordpress config file wp-config.php with corresponding values
 node[:deploy].each do |app_name, deploy|
-
+  wp_config = default['wordperss']['wp_config']
+  if node['wordpress'] && node['wordpress'][app_name] && node['wordpress'][app_name]['wp_config']
+    wp_config.merge!(node['wordpress'][app_name]['wp_config'])
+  end
   template "#{deploy[:deploy_to]}/current/public/wp-config.php" do
-      source "wp-config.php.erb"
-      mode 0660
-      group deploy[:group]
+    source "wp-config.php.erb"
+    mode 0660
+    group deploy[:group]
 
-      if platform?("ubuntu")
-        owner "www-data"
-      elsif platform?("amazon")
-        owner "apache"
-      end
+    if platform?("ubuntu")
+      owner "www-data"
+    elsif platform?("amazon")
+      owner "apache"
+    end
 
-      variables(
-          :database   => (deploy[:database][:database] rescue nil),
-          :user       => (deploy[:database][:username] rescue nil),
-          :password   => (deploy[:database][:password] rescue nil),
-          :host       => (deploy[:database][:host] rescue nil),
-          :keys       => (keys rescue nil)
-      )
+    variables(
+      database:   (deploy[:database][:database] rescue nil),
+      user:       (deploy[:database][:username] rescue nil),
+      password:   (deploy[:database][:password] rescue nil),
+      host:       (deploy[:database][:host] rescue nil),
+      keys:       (keys rescue nil),
+      wp_config:  (wp_config rescue nil)
+    )
   end
 
 	# Import Wordpress database backup from file if it exists
