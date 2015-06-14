@@ -19,7 +19,7 @@ keys = response.body
 node[:deploy].each do |app_name, deploy|
   wp_config = node['wordpress']['wp_config']
   if node['wordpress'] && node['wordpress'][app_name] && node['wordpress'][app_name]['wp_config']
-    wp_config.merge!(node['wordpress'][app_name]['wp_config'])
+    wp_config = wp_config.merge(node['wordpress'][app_name]['wp_config'])
   end
   template "#{deploy[:deploy_to]}/current/public/wp-config.php" do
     source "wp-config.php.erb"
