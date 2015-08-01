@@ -17,6 +17,7 @@ keys = response.body
 
 # Create the Wordpress config file wp-config.php with corresponding values
 node[:deploy].each do |app_name, deploy|
+  return if node['wordpress'].nil? || node['wordpress'][app_name].nil?
   wp_config = node['wordpress']['wp_config']
   if node['wordpress'] && node['wordpress'][app_name] && node['wordpress'][app_name]['wp_config']
     wp_config = wp_config.merge(node['wordpress'][app_name]['wp_config'])
