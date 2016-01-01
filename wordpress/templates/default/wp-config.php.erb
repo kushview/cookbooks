@@ -13,8 +13,10 @@
  *
  * @package WordPress
  */
-
-define ('DONOTCACHEPAGE', <%= @wp_config['donotcachepage'] %>);
+ 
+<% if @wp_config['donotcachepage'] == true -%>
+define ('DONOTCACHEPAGE', );
+<% end -%>
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
