@@ -14,8 +14,8 @@
  * @package WordPress
  */
  
-<% if @wp_config['donotcachepage'] == true -%>
-define ('DONOTCACHEPAGE', );
+<% if @wp_config['donotcachepage'] == false -%>
+define ('DONOTCACHEPAGE', false);
 <% end -%>
 
 // ** MySQL settings - You can get this info from your web host ** //
