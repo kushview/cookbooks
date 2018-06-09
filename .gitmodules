@@ -1,3 +1,0 @@
-[submodule "opsworks_delayed_job"]
-	path = opsworks_delayed_job
-	url = https://github.com/kushview/opsworks_delayed_job
